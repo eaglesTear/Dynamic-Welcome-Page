@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <!-- The aim of this short project was to see if I could use DOM-exclusive JS to create a small greeting page. Not efficient but good for practice! -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A webpage created only through JavaScript">
+    <title>User Welcome Message</title>
+</head>
+
+<body>
+    <header id="js-header-target"></header>
+
+    <script>
+        // GATHER & STORE USER DATA FOR PERSONALISED GREETING
+        let userName = prompt("Please enter your name.");
+
+        /* INITIALISE A FUNCTION TO CAPITALISE 1ST LETTER OF USERNAME
+        'SLICE' CUTS OFF THE FIRST LETTER OF INPUTTED STRING AND ADDS CAP INSTEAD
+        OTHERWISE, IT WILL RETURN BOTH CAP AND LOWERCASE VERSION OF STRING */
+        let data = function(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // ADD BUTTON ELEMENT FOR NAV TOGGLE
+        let newBtn = document.createElement("button");
+        document.getElementById("js-header-target");
+        document.body.appendChild(newBtn);
+        newBtn.innerHTML = data(userName) + ", click me to toggle the header!";
+        newBtn.style.cssText = "display: block; margin: auto; font-size: 1.2rem";
+
+        // TOGGLE HEADER MSG ON OR OFF (VERTICALLY) ONCLICK. ONCLICK ASSIGNED IN DOM
+        let headerMsg = document.getElementById("js-header-target");
+        let menuStatus = false;
+        newBtn.onclick = function toggleHeader() {
+            document.getElementById("js-header-target").style.transition = "0.5s";
+            if (menuStatus === false) {
+                headerMsg.style.marginTop = "-120px";
+                menuStatus = true;
+            } else if (menuStatus === true) {
+                headerMsg.style.marginTop = "0px";
+                menuStatus = false;
+            }
+        }
+
+        // 100% STYLING WITH JS
+        document.body.style.backgroundImage = "linear-gradient(to bottom, rebeccapurple, teal)";
+        document.getElementById("js-header-target").style.cssText = "margin-bottom: 4rem; display: flex; justify-content: center; align-items: center; background-color: #000; height: 100px";
+
+        // FUTURE LINKS ONLY: ITERATE THROUGH ANCHOR NODELIST AND STYLE ACCORDINGLY
+        let anchors = document.querySelectorAll("a");
+        for (let i = 0; i < anchors.length; i++) {
+            anchors[i].style.cssText = "padding: 1rem; font-family: arial; font-size: 1.2rem; text-transform: uppercase; color: gold; text-decoration: none";
+        }
+
+        // WELCOME HEADER TEXT INSERTED INTO BODY
+        let getBody = document.body;
+        getBody.style.display = "block";
+        let newElement = document.createElement("h1");
+
+        // IMPORT WELCOME IMAGE VIA DOM & STYLE
+        let getImage = document.createElement("img");
+        getImage.setAttribute("src", "images/welcome.jpg");
+        document.body.appendChild(getImage);
+        getImage.style.cssText = "margin: 2rem auto; display: block";
+
+        // INITIALISE A DYNAMIC IMAGE & STYLE
+        let dynamicImage = document.createElement("img");
+        dynamicImage.style.cssText = "height: 350px; width: 500px; display: block; margin: 2rem auto";
+
+        // INITIALISE DATE OBJECT TO DETERMINE TIME OF DAY 
+        let date = new Date();
+        let currentHour = date.getHours();
+        let printDateTime = document.createElement("h2");
+        let timeMsg = document.createTextNode("The time is: " + date + ", so...");
+        printDateTime.appendChild(timeMsg);
+        document.body.appendChild(printDateTime);
+        printDateTime.style.textAlign = "center";
+
+        /* SET IMAGE / GREETING ACCORDING TO TIME OF DAY
+        FOR FUTURE DYNAMIC BG, STORE VALUE AS VARIABLE AS MORE EFFICIENT */
+        let createMsg;
+        if (currentHour >= 4 && currentHour < 10) {
+            createMsg = "Good Morning " + data(userName);
+            dynamicImage.setAttribute("src", "images/morning-cute.gif");
+        } else if (currentHour >= 12 && currentHour < 18) {
+            createMsg = "Good Afternoon " + data(userName);
+            dynamicImage.setAttribute("src", "images/afternoon-cute.gif");
+        } else if (currentHour >= 18 && currentHour < 22) {
+            createMsg = "Good Evening " + data(userName);
+            dynamicImage.setAttribute("src", "images/evening.gif");
+        } else if (currentHour >= 22) {
+            createMsg = "Good Night " + data(userName);
+            dynamicImage.setAttribute("src", "images/night.gif");
+        } else {
+            createMsg = "This is not an Earth-time, " + data(userName) + "!";
+            dynamicImage.setAttribute("src", "images/kepler22b.jpg");
+        }
+
+        let currentMinute = date.getMinutes();
+
+        setInterval(function() { // Set interval for checking
+            if (currentHour === 21 && currentMinute === 15) { // Check the time
+                alert("This program is about to say 'Good Morning'");
+            }
+        }, 50000); // Repeat every 60000 milliseconds (1 minute)
+        
+        document.body.appendChild(dynamicImage);
+
+        // WELCOME MESSAGE NODE CREATION & STYLING
+        let createNodeTxt = document.createTextNode(createMsg);
+        newElement.appendChild(createNodeTxt);
+        let getNav = document.getElementById("js-header-target");
+        getNav.appendChild(newElement);
+        newElement.setAttribute("class", "welcome");
+        newElement.style.cssText = "text-align: center; font-size: 3rem; color: #fff";
+
+        // MUST JOIN THE FIRST TWO VARS/ELEMENTS TOGETHER BEFORE APPENDING TO DOM
+        let disclaimer = document.createElement("h2");
+        let disMsg = document.createTextNode("Built with JavaScript only");
+        disclaimer.appendChild(disMsg);
+        document.body.appendChild(disclaimer);
+        disclaimer.style.cssText = "text-align: center; font-style: oblique";
+
+    </script>
+</body>
+
+</html>
