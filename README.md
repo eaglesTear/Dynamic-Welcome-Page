@@ -1,3 +1,6 @@
+![dynamic_message](https://user-images.githubusercontent.com/68791163/135515260-d7ffe763-8c3a-4b3e-9d02-50c63cd96d2b.PNG)
+
+
 # Dynamic-Welcome-Page
 Webpage built entirely in JS - my early days of JS programming.
 
